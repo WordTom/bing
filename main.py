@@ -1,8 +1,6 @@
 # This is a sample Python script.
 import time
-
 import pandas as pd
-
 import setting as tool
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
@@ -20,23 +18,23 @@ if __name__ == '__main__':
     with open('wordlist.txt', 'r') as word_list_file:
         word_list = word_list_file.readlines()
     # 除重
-    word_list = set(word_list)
+    # word
 
     row_list = []
 
     for item in word_list:
         # 对单词表内每个单词调用 html解析器-DictRstParser，并返回每个单词的parser对象
-        parser = tool.DictRstParser(item)
+        parser = tool.DictRstParser(item.strip())
         # 将每个单词的parser对象中的属性-parser.output_dict <dict> 传入 row_list<list>
         row_list.append(parser.output_dict)
         # 窗口输出结果
         print(parser.output_dict)
         # 防屏蔽
-        time.sleep(0.8)
+        time.sleep(0.4)
 
     # 将list 转为 DataFrame对象
     df = pd.DataFrame(row_list)
-    df['ame_pr'].replace('美 ','')
+    df['ame_pr'] = df['ame_pr'].str.replace('美 ', '')
     # 用xlsxwriter 去解析该使用什么编码
     xlwriter = pd.ExcelWriter('word_list.xlsx',engine='xlsxwriter')
 
